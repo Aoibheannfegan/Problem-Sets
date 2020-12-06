@@ -17,20 +17,16 @@ int main(void)
 
 int count_letters (string quote)
 {
-    int sum = 0; 
-    
-    for (int i = 0, n = strlen(quote); i < n; i++)
+    int sum = 0;
+    for (int i = 0; i < strlen(quote); i++)
     {
-        char currentchar = quote [i]; 
-        bool isvalidletter = (isalpha(quote[i])); 
-        
-        if(isvalidletter)
+        char currentLetter = quote[i];
+        bool isValidChar = (currentLetter >= 'a' && currentLetter <= 'z') || (currentLetter >= 'A' && currentLetter <= 'Z');
+
+        if(isValidChar) 
         {
-          sum++;  
+            sum ++;
         }
-        return sum;
     }
-    
-  
     return sum;
 }
