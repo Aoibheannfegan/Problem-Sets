@@ -4,11 +4,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+void ciphertext (char currentchar, int keyaslong);
 int main(int argc, string argv[])
 
 {
     string key = argv[1];
-    long keyaslong = atol(key);
 
     if (argc == 2)
     {
@@ -19,48 +19,50 @@ int main(int argc, string argv[])
             {
                printf("Usage: ./caesar key");
             }
-         }
-        printf("%ld", keyaslong);
+
+            else
+            {
+                int keyaslong = atoi(key);
+                string plain_text = get_string("Plain text: ");
+                printf ("ciphertext: ");
+
+                for (int z = 0, x = strlen(plain_text); z < x; z++)
+                {
+                     char currentchar = plain_text[z];
+                     ciphertext(currentchar,keyaslong);
+                }
+            }
+        }
     }
+
     else
     {
         printf("Usage: ./caesar key");
     }
-    printf("\n");
-    
-    
-    
-    string plain_text = get_string("Plain text: ");
-    printf ("ciphertext: ");
 
-    for (int i = 0, n = strlen(plain_text); i < n; i++)
-    {
-        char currentchar = plain_text[i];
-        
+    printf("\n");
+}
+
+
+
+void ciphertext (char currentchar, int keyaslong)
+{
         bool isletter = isalpha(currentchar);
-        
+        int cipher = (int)currentchar;
+
         if (isletter)
         {
-              if (isupper(currentchar))
+            if (isupper(currentchar))
             {
-                int upper = ((int)plain_text[i]) - 65;
-                int cypher[i] = (upper + keyaslong) % 26;
-                printf("%c", (char)(cypher[i] + 65));
+                int upper = cipher - 65;
+                printf("%c", (upper + keyaslong) % 26);
             }
 
             else if (islower(currentchar))
             {
-                int lower = ((int)plain_text[i]) - 97;
-                int cypher[i] = (lower + keyaslong) % 26;
-                printf("%c", (char)(cypher[i] + 97));
+                int lower = cipher - 97;
+                printf("%c",(lower + keyaslong) % 26);
             }
         }
-        
-        else 
-        {
-            printf("%c", plain_text[i]);
-        }
 
-    }
-    printf("\n");
 }
