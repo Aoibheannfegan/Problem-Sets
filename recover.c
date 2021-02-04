@@ -4,18 +4,18 @@
 
 int main(int argc, char *argv[])
 {
-    typedef uint8_t byte;
-    byte block[512];
-    char *image = NULL;
-    FILE *output = NULL;
-    int jpeg_count = 0;
-
-
     if (argc != 2)
     {
         printf("Usage: ./recover image\n");
         return 1;
     }
+
+    typedef uint8_t byte;
+    byte block[512];
+    char image[100];
+    bool jpeg_found = false;
+    FILE *output;
+    int jpeg_count = 0;
 
     FILE *input = fopen(argv[1], "r");
     if (input == NULL)
@@ -31,36 +31,33 @@ int main(int argc, char *argv[])
             {
                 if(jpeg_count == 0)
                 {
-                    sprintf(image, "%03i", jpeg_count);
+                    sprintf(image, "%03i.jpg", jpeg_count);
                     output = fopen(image, "w");
-                    fwrite(block, sizeof(byte), 512, output);
+                    fwrite(block, sizeof(block), 1, output);
                     jpeg_count++;
                 }
-                else
+                else if(jpeg_count > 0)
                 {
                     fclose(output);
-                    sprintf(image, "%03i", jpeg_count);
+                    sprintf(image, "%03i.jpg", jpeg_count);
                     output = fopen(image, "w");
-                    fwrite(block, sizeof(byte), 512, output);
+                    fwrite(block, sizeof(block), 1, output);
+                    jpeg_count++;
                 }
             }
 
-            else
+            else if (jpeg_count > 0)
             {
-                if(jpeg_count > 0)
-                {
-                    fwrite(block, sizeof(byte), 512, output);
-                }
-
-                else
-                {
-                    //move to next block
-                }
+                output = fopen(image, "a");
+                fwrite(block, sizeof(block), 1, output);
             }
-
-            fclose(input);
-            fclose(output);
-            return 0;
         }
+
+        fclose(input);
+        fclose(output);
+        return 0;
     }
 }
+
+
+
