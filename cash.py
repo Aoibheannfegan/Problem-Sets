@@ -34,7 +34,6 @@ def calculate_float(n):
             coins+=1
             change = change - cent
 
-
     print(coins)
 
 main()
