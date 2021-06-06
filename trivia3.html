@@ -9,20 +9,91 @@
 
         <script>
 
-           document.addEventListener('DOMContentLoaded', function() {
-               let response = document.querySelector(div.section)
-               response.addEventListener('onclick', function() {
-                   if (button.id ='incorrect') {
-                       document.getElementById('incorrect').style.backgroundColor = 'Red';
-                   }
-                   else {
-                       document.getElementById('correct').style.backgroundColor = 'Green';
-                   }
-               })
-           })
+        document.addEventListener('DOMContentLoaded', function() {
+            var correctAnswer = document.querySelectorAll('#correct');
+
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(function(button)
+            {
+
+                button.addEventListener('click', function()
+                {
+
+                    clearAllButtons(buttons);
+                    const content = button.innerText;
+
+                    for (let i = 0; i < correctAnswer.length; i++)
+                    {
+                        if (content == correctAnswer[0].innerText || content == correctAnswer[1].innerText || content == correctAnswer[2].innerText)
+                        {
+                            button.classList.add('correct');
+                            if (content == correctAnswer[0].innerText)
+                            {
+                                document.querySelector('#feedback1').innerHTML = 'Correct!';
+                            }
+                            else if (content == correctAnswer[1].innerText)
+                            {
+                                document.querySelector('#feedback2').innerHTML = 'Correct!';
+                            }
+                            else
+                            {
+                                document.querySelector('#feedback3').innerHTML = 'Correct!';
+                            }
+                        }
+                        else
+                        {
+                            button.classList.add('incorrect');
+                            if (content === "They're Green" || content === "They're Tall")
+                            {
+                                document.querySelector('#feedback1').innerHTML = 'Incorrect!';
+                            }
+                            else if (content === "Chandler Bing" || content === "Joey Tribbiani")
+                            {
+                                document.querySelector('#feedback2').innerHTML = 'Incorrect!';
+                            }
+                            else if (content === "Little Women" || content === "Dangerous Liasons")
+                            {
+                                document.querySelector('#feedback3').innerHTML = 'Incorrect!';
+                            }
+                        }
+                    }
+                });
+            });
+
+            function clearAllButtons(buttons) {
+                buttons.forEach(button => {
+                    button.classList.remove('correct');
+                    button.classList.remove('incorrect');
+                });
+            };
+
+            document.querySelector('#CheckAnswer').addEventListener('click', function() {
+                clearAllButtons(buttons);
+                let answer = document.querySelector('input');
+                if(answer.value === '11') {
+                    answer.style.backgroundColor = 'green';
+                    document.querySelector('#feedback4').innerHTML = 'Unbelievable! 11 is correct!';
+                } else {
+                    answer.style.backgroundColor = 'red';
+                    document.querySelector('#feedback4').innerHTML = "Incorrect.";
+                }
+            });
+
+        });
 
         </script>
+
     </head>
+
+    <style>
+        .correct {
+            background: green;
+        }
+
+        .incorrect {
+            background: red;
+        }
+    </style>
 
     <body>
         <div class="jumbotron">
@@ -34,32 +105,37 @@
             <div class="section">
                 <h2>Part 1: Multiple Choice </h2>
                 <hr>
-                    <h3>
-                        Next question here?
-                        <br>
-                        <button id = 'incorrect'>Option 1</button>
-                        <button id ='incorrect'>Option 2</button>
-                        <button id ='correct'>Option 3</button>
-                        </br>
+                <h3>What's your favourite thing about trees?</h3>
+                <button id = 'incorrect'>They're Green</button>
+                <button id ='incorrect'>They're Tall</button>
+                <button id ='correct'>They're Leafy</button>
+                <b><p id='feedback1'></p></b>
 
-                        <p id='feedback'></p>
-                    </h3>
+                <h3>Every week the TV Guide comes to Chandler and Joey's apartment. What name appears on the address label?</h3>
+                <button id = 'incorrect'>Chandler Bing</button>
+                <button id ='correct'>Ms. Chanandler Bong.</button>
+                <button id ='incorrect'>Joey Tribbiani</button>
+
+                <b><p id='feedback2'></p></b>
+
+                <h3>What is Rachel's favourite movie?</h3>
+                <button id = 'incorrect'>Little Women</button>
+                <button id = 'correct'>Weekend at Bernies</button>
+                <button id ='incorrect'>Dangerous Liasons</button>
+
+                <b><p id='feedback3'></p></b>
             </div>
 
 
             <div class="section">
                 <h2>Part 2: Free Response</h2>
                 <hr>
-                <!-- TODO: Add free response question here -->
-                    <h3>
-                        What is the answer?
-                    </h3>
-                <form on submit="correct_answer(); return false">
-                    <input autocomplete ="off" autofocus id ="answer" placeholder = "Type answer here" type = "text">
-                    <p>
-                        <input type ="submit">
-                    </p>
-                </form>
+
+                <h3>Monica catagorizes her towels, how many catagories are there?</h3>
+                <input autocomplete ="off" autofocus placeholder = "Type answer here..." type = "text"> </input>
+                <p><button id = 'CheckAnswer'> Check Answer </button></p>
+
+               <b><p id='feedback4'></p></b>
 
             </div>
 
